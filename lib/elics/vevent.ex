@@ -1,4 +1,6 @@
 defmodule Elics.Vevent do
+  @moduledoc false
+
   defstruct [
     :uid,
     :dtstamp,

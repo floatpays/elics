@@ -1,4 +1,6 @@
 defmodule Elics do
+  @moduledoc false
+
   alias Elics.{Vcalendar, Vevent}
 
   def parse(content) do

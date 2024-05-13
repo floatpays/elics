@@ -1,8 +1,11 @@
 defmodule Elics.ValueParser do
+  @moduledoc false
+
   import NimbleParsec
 
   def parse_timestamp(val) do
-    {:ok, [year, month, day, hour, minute, second], _, _, _, _}  = parse_datetime(val)
+    {:ok, [year, month, day, hour, minute, second], _, _, _, _} =
+      parse_datetime(val)
 
     time = Time.new!(hour, minute, second)
     date = Date.new!(year, month, day)
@@ -11,7 +14,7 @@ defmodule Elics.ValueParser do
   end
 
   def parse("VALUE=DATE", val) do
-    {:ok, [year, month, day], _, _, _, _}  = parse_date(val)
+    {:ok, [year, month, day], _, _, _, _} = parse_date(val)
 
     Date.new!(year, month, day)
   end
