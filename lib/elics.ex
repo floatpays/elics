@@ -19,10 +19,7 @@ defmodule Elics do
   end
 
   defp parse_vcalendar([line | lines], %Vcalendar{} = calendar) do
-    [key, val] = String.split(line, ":")
-
-    # the value might span multiple lines
-    {val, lines} = parse_val(val, lines)
+    {key, val, lines} = get_key_val([line | lines])
 
     case vcalendar_keys(key) do
       {:ok, key_atom} ->
@@ -54,10 +51,7 @@ defmodule Elics do
          %Vcalendar{} = calendar,
          %Vevent{} = event
        ) do
-    [key, val] = String.split(line, ":")
-
-    # the value might span multiple lines
-    {val, lines} = parse_val(val, lines)
+    {key, val, lines} = get_key_val([line | lines])
 
     case vevent_keys(key) do
       {:ok, key_atom} ->
@@ -66,6 +60,30 @@ defmodule Elics do
       :error ->
         parse_vevent(lines, calendar, event)
     end
+  end
+
+  defp get_key_val([line | lines]) do
+    [key, val] = String.split(line, ":")
+
+    # the value might span multiple lines
+    {val, lines} = parse_val(val, lines)
+
+    {key, val} =
+      case String.split(key, ";") do
+        [key, format] ->
+          {key, Elics.ValueParser.parse(format, val)}
+
+        [key] ->
+          case key do
+            "DTSTAMP" ->
+              {key, Elics.ValueParser.parse_timestamp(val)}
+
+            _ ->
+              {key, val}
+          end
+      end
+
+    {key, val, lines}
   end
 
   defp parse_val(val, [" " <> val_cont | lines]) do
