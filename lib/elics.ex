@@ -80,6 +80,12 @@ defmodule Elics do
             "DTSTAMP" ->
               {key, Elics.ValueParser.parse_timestamp(val)}
 
+            "DTSTART" ->
+              {key, Elics.ValueParser.parse_timestamp(val)}
+
+            "DTEND" ->
+              {key, Elics.ValueParser.parse_timestamp(val)}
+
             _ ->
               {key, val}
           end

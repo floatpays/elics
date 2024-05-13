@@ -7,19 +7,22 @@ defmodule ElicsTest do
       File.read!(Path.join(:code.priv_dir(:elics), "test/simple.ics"))
 
     assert Elics.parse(content) == %Elics.Vcalendar{
-             version: "2.0",
-             prodid: "-//hacksw/handcal//NONSGML v1.0//EN",
              events: [
                %Elics.Vevent{
-                 uid: "uid1@example.com",
-                 dtstamp: "19970714T170000Z",
+                 categories: nil,
+                 class: nil,
+                 description: nil,
+                 dtend: ~U[1997-07-15 04:00:00Z],
+                 dtstamp: ~U[1997-07-14 17:00:00Z],
+                 dtstart: ~U[1997-07-14 17:00:00Z],
+                 geo: "48.85299;2.36885",
                  organizer: nil,
-                 dtstart: "19970714T170000Z",
-                 dtend: "19970715T040000Z",
                  summary: "Bastille Day Party",
-                 geo: "48.85299;2.36885"
+                 uid: "uid1@example.com"
                }
-             ]
+             ],
+             prodid: "-//hacksw/handcal//NONSGML v1.0//EN",
+             version: "2.0"
            }
   end
 
