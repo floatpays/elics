@@ -77,13 +77,7 @@ defmodule Elics do
 
         [key] ->
           case key do
-            "DTSTAMP" ->
-              {key, Elics.ValueParser.parse_timestamp(val)}
-
-            "DTSTART" ->
-              {key, Elics.ValueParser.parse_timestamp(val)}
-
-            "DTEND" ->
+            "DT" <> _ ->
               {key, Elics.ValueParser.parse_timestamp(val)}
 
             _ ->
